@@ -15,8 +15,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WlCell.h"
 
-
-@interface IASKPSTitleValueSpecifierViewCell : UITableViewCell
+@interface IASKPSTitleValueSpecifierViewCell : WlCell
 
 @end

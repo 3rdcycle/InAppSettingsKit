@@ -26,6 +26,7 @@
 #import "IASKSpecifier.h"
 #import "IASKSpecifierValuesViewController.h"
 #import "IASKTextField.h"
+#import "WlCell.h"
 
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
 static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
@@ -184,7 +185,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 		[buttonItem release];
 	} 
 	if (!self.title) {
-		self.title = NSLocalizedString(@"Settings", @"");
+		self.title = NSLocalizedString(@"Settings", @"Program Settings");
 	}
 	
 	if ([self.settingsStore isKindOfClass:[IASKSettingsStoreUserDefaults class]]) {
@@ -463,10 +464,10 @@ CGRect IASKCGRectSwap(CGRect rect);
 	}
 }
 
-- (UITableViewCell*)newCellForIdentifier:(NSString*)identifier {
-	UITableViewCell *cell = nil;
+- (WlCell*)newCellForIdentifier:(NSString*)identifier {
+	WlCell *cell = nil;
 	if ([identifier isEqualToString:kIASKPSToggleSwitchSpecifier]) {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIASKPSToggleSwitchSpecifier];
+		cell = [[WlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIASKPSToggleSwitchSpecifier];
 		cell.accessoryView = [[[IASKSwitch alloc] initWithFrame:CGRectMake(0, 0, 79, 27)] autorelease];
 		[((IASKSwitch*)cell.accessoryView) addTarget:self action:@selector(toggledValue:) forControlEvents:UIControlEventValueChanged];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -488,7 +489,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 		cell = [[IASKPSTitleValueSpecifierViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	} else {
-		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+		cell = [[WlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
 	}
 	cell.textLabel.minimumFontSize = kIASKMinimumFontSize;
 	cell.detailTextLabel.minimumFontSize = kIASKMinimumFontSize;
@@ -503,7 +504,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 		return cell;
 	}
 	
-	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:specifier.type];
+	WlCell* cell = (WlCell*) [tableView dequeueReusableCellWithIdentifier:specifier.type];
 	if(nil == cell) {
 		cell = [[self newCellForIdentifier:specifier.type] autorelease];
 	}
@@ -597,6 +598,8 @@ CGRect IASKCGRectSwap(CGRect rect);
 	} else {
 		cell.textLabel.text = specifier.title;
 	}
+    
+    [cell positionForRow:indexPath.row rowCount:[self.settingsReader numberOfRowsForSection:indexPath.section]];
     
 	cell.imageView.image = specifier.cellImage;
 	cell.imageView.highlightedImage = specifier.highlightedCellImage;
@@ -782,10 +785,10 @@ CGRect IASKCGRectSwap(CGRect rect);
             [mailViewController release];
         } else {
             UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:NSLocalizedString(@"Mail not configured", @"InAppSettingsKit")
-                                  message:NSLocalizedString(@"This device is not configured for sending Email. Please configure the Mail settings in the Settings app.", @"InAppSettingsKit")
+                                  initWithTitle:NSLocalizedString(@"Mail not configured", @"Title for message that is displayed if the device has not been setup for seding email (30)")
+                                  message:NSLocalizedString(@"This device is not configured for sending Email. Please configure the Mail settings in the Settings app.", @"Message that is shown if the user attempts to send an email but the device has not been configured to send mails")
                                   delegate: nil
-                                  cancelButtonTitle:NSLocalizedString(@"OK", @"InAppSettingsKit")
+                                  cancelButtonTitle:NSLocalizedString(@"Ok", @"Ok")
                                   otherButtonTitles:nil];
             [alert show];
             [alert release];

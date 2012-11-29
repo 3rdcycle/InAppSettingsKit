@@ -18,6 +18,8 @@
 #import "IASKSpecifier.h"
 #import "IASKSettingsReader.h"
 #import "IASKSettingsStoreUserDefaults.h"
+#import "WlCell.h"
+#import "WorkLogTheme.h"
 
 #define kCellValue      @"kCellValue"
 
@@ -104,6 +106,12 @@
 	// Release any cached data, images, etc that aren't in use.
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [WorkLogTheme themeTableView:self.tableView];
+}
+
+
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
@@ -147,11 +155,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell   = [tableView dequeueReusableCellWithIdentifier:kCellValue];
+    WlCell *cell   = (WlCell *) [tableView dequeueReusableCellWithIdentifier:kCellValue];
     NSArray *titles         = [_currentSpecifier multipleTitles];
 	
     if (!cell) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellValue] autorelease];
+        cell = [[[WlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellValue] autorelease];
     }
 	
 	if ([indexPath isEqual:[self checkedItem]]) {
@@ -162,6 +170,7 @@
 	
 	@try {
 		[[cell textLabel] setText:[self.settingsReader titleForStringId:[titles objectAtIndex:indexPath.row]]];
+        [cell positionForRow:indexPath.row rowCount:[titles count]];
 	}
 	@catch (NSException * e) {}
     return cell;

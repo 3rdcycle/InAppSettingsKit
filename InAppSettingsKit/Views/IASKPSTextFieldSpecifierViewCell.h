@@ -15,10 +15,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WlCell.h"
 
 @class IASKTextField;
 
-@interface IASKPSTextFieldSpecifierViewCell : UITableViewCell {
+@interface IASKPSTextFieldSpecifierViewCell : WlCell {
     IASKTextField *_textField;
 }
 
