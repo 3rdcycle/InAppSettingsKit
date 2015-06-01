@@ -26,7 +26,6 @@
 #import "IASKSpecifier.h"
 #import "IASKSpecifierValuesViewController.h"
 #import "IASKTextField.h"
-#import "WlCell.h"
 
 static const CGFloat KEYBOARD_ANIMATION_DURATION = 0.3;
 static const CGFloat MINIMUM_SCROLL_FRACTION = 0.2;
@@ -464,10 +463,10 @@ CGRect IASKCGRectSwap(CGRect rect);
 	}
 }
 
-- (WlCell*)newCellForIdentifier:(NSString*)identifier {
-	WlCell *cell = nil;
+- (UITableViewCell*)newCellForIdentifier:(NSString*)identifier {
+	UITableViewCell *cell = nil;
 	if ([identifier isEqualToString:kIASKPSToggleSwitchSpecifier]) {
-		cell = [[WlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIASKPSToggleSwitchSpecifier];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kIASKPSToggleSwitchSpecifier];
 		cell.accessoryView = [[[IASKSwitch alloc] initWithFrame:CGRectMake(0, 0, 79, 27)] autorelease];
 		[((IASKSwitch*)cell.accessoryView) addTarget:self action:@selector(toggledValue:) forControlEvents:UIControlEventValueChanged];
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -489,7 +488,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 		cell = [[IASKPSTitleValueSpecifierViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	} else {
-		cell = [[WlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
 	}
 	cell.textLabel.minimumFontSize = kIASKMinimumFontSize;
 	cell.detailTextLabel.minimumFontSize = kIASKMinimumFontSize;
@@ -504,7 +503,7 @@ CGRect IASKCGRectSwap(CGRect rect);
 		return cell;
 	}
 	
-	WlCell* cell = (WlCell*) [tableView dequeueReusableCellWithIdentifier:specifier.type];
+	UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:specifier.type];
 	if(nil == cell) {
 		cell = [[self newCellForIdentifier:specifier.type] autorelease];
 	}
@@ -598,8 +597,6 @@ CGRect IASKCGRectSwap(CGRect rect);
 	} else {
 		cell.textLabel.text = specifier.title;
 	}
-    
-    [cell positionForRow:indexPath.row rowCount:[self.settingsReader numberOfRowsForSection:indexPath.section]];
     
 	cell.imageView.image = specifier.cellImage;
 	cell.imageView.highlightedImage = specifier.highlightedCellImage;

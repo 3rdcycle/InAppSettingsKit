@@ -18,7 +18,6 @@
 #import "IASKSpecifier.h"
 #import "IASKSettingsReader.h"
 #import "IASKSettingsStoreUserDefaults.h"
-#import "WlCell.h"
 #import "WorkLogTheme.h"
 
 #define kCellValue      @"kCellValue"
@@ -155,11 +154,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    WlCell *cell   = (WlCell *) [tableView dequeueReusableCellWithIdentifier:kCellValue];
+    UITableViewCell *cell   = [tableView dequeueReusableCellWithIdentifier:kCellValue];
     NSArray *titles         = [_currentSpecifier multipleTitles];
 	
     if (!cell) {
-        cell = [[[WlCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellValue] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellValue] autorelease];
     }
 	
 	if ([indexPath isEqual:[self checkedItem]]) {
@@ -170,7 +169,6 @@
 	
 	@try {
 		[[cell textLabel] setText:[self.settingsReader titleForStringId:[titles objectAtIndex:indexPath.row]]];
-        [cell positionForRow:indexPath.row rowCount:[titles count]];
 	}
 	@catch (NSException * e) {}
     return cell;

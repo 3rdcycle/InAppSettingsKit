@@ -15,11 +15,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WlCell.h"
 
 @class IASKSlider;
 
-@interface IASKPSSliderSpecifierViewCell : WlCell {
+@interface IASKPSSliderSpecifierViewCell : UITableViewCell {
     IASKSlider *_slider;
     UIImageView *_minImage;
     UIImageView *_maxImage;
