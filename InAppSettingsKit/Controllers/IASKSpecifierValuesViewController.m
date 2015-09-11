@@ -18,7 +18,6 @@
 #import "IASKSpecifier.h"
 #import "IASKSettingsReader.h"
 #import "IASKSettingsStoreUserDefaults.h"
-#import "WorkLogTheme.h"
 
 #define kCellValue      @"kCellValue"
 
@@ -103,11 +102,6 @@
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [WorkLogTheme themeTableView:self.tableView];
 }
 
 
